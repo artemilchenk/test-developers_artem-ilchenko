@@ -1,0 +1,29 @@
+@import "./src/styles/measure";
+@import "./src/styles/screen";
+@import "./src/styles/mixins";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: $maxContainerWidth;
+}
+
+.section {
+  @include flex-justify-center;
+  width: 100%;
+
+  @media screen and (max-width: $xLargeScreen) {
+    padding: 0 60px;
+  }
+
+  @media screen and (max-width: $largeScreen) {
+    padding: 0 32px;
+  }
+
+  @media screen and (max-width: $middleScreen) {
+    padding: 0 16px;
+  }
+}

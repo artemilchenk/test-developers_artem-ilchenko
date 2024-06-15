@@ -1,0 +1,18 @@
+.button-base {
+  text-align: center;
+  width: 100px;
+  background-color: #f4e041;
+  padding: 4px 0;
+  border-radius: 80px;
+  color: black;
+  font-size: 16px;
+  line-height: 26px;
+}
+.button-base:hover {
+  background-color: #ffe302;
+}
+.button-base:disabled {
+  background-color: #b4b4b4;
+}
+
+/*# sourceMappingURL=base-button.module.css.map */

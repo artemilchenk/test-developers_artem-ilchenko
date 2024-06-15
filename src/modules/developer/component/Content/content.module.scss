@@ -1,0 +1,30 @@
+@import "src/styles/screen";
+@import "src/styles/measure";
+
+@mixin with-resize {
+  @media screen and (max-width: 2500px) {
+    width: $maxWidth;
+  }
+
+  @media screen and (max-width: $xLargeScreen) {
+    width: $minWidth;
+  }
+
+  @media screen and (max-width: $largeScreen) {
+    width: $largeWidth;
+  }
+
+  @media screen and (max-width: $middleScreen) {
+    width: $midWidth;
+  }
+}
+
+.wrapper {
+  margin-top: 140px;
+}
+
+.title {
+  line-height: 40px;
+  font-size: 40px;
+  margin-bottom: 50px;
+}

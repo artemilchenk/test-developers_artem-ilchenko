@@ -1,0 +1,6 @@
+@import "./src/styles/ui/base-button.module";
+
+.contentButton {
+  @extend .baseButton;
+  width: 120px;
+}

@@ -1,0 +1,59 @@
+@import "./src/styles/mixins";
+@import "./src/styles/screen";
+@import "./src/styles/measure";
+@import "../content.module";
+
+$padding: 20px;
+
+.card {
+  width: $maxWidth;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: $padding;
+  border-radius: 16px;
+  background-color: white;
+  line-height: 26px;
+  font-size: 16px;
+  color: black;
+
+  @include with-resize;
+}
+
+.card-element {
+  margin-bottom: 20px;
+}
+
+.card-element:last-child {
+  margin-bottom: 0;
+}
+
+.image {
+  width: 70px;
+  height: 70px;
+  @extend .card-element;
+  //@include imgWrapper(70px, 70px);
+  border-radius: 50%;
+ /* background-image: url("/src/assets/images/3.png");
+  background-size: cover;*/
+}
+
+.cardTitle {
+  padding: 0 20px;
+  @include tex-ellipsis;
+  @extend .card-element;
+  height: 26px;
+  @include with-resize;
+}
+
+.description {
+  @extend .card-element;
+
+  &__item {
+    @include tex-ellipsis;
+    padding: 0 20px;
+    height: 26px;
+    @include with-resize;
+  }
+}

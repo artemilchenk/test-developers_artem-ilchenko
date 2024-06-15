@@ -1,0 +1,9 @@
+@import "./src/styles/screen";
+
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+  font-family: "Nunito", sans-serif;
+}

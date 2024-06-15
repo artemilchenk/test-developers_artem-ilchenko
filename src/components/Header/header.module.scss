@@ -1,0 +1,19 @@
+@import "src/styles/mixins";
+@import "./src/styles/measure";
+@import "./src/styles/screen";
+
+.header {
+  @include flex-justify-center;
+  align-items: center;
+  background-color: white;
+  height: 60px;
+}
+
+.wrapper {
+  @include flex-justify-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}

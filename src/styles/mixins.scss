@@ -1,0 +1,28 @@
+@mixin flex-justify-center {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-justify-between {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+@mixin tex-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@mixin imgWrapper($width, $height) {
+  height: $width;
+  width: $height;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}

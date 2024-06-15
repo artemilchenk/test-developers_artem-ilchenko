@@ -1,0 +1,21 @@
+@import "./src/styles/colors";
+@import "./src/styles/measure";
+
+.baseButton {
+  text-align: center;
+  width: $baseButtonWidth;
+  background-color: $primary;
+  padding: 4px 0;
+  border-radius: 80px;
+  color: black;
+  font-size: 16px;
+  line-height: 26px;
+
+  &:hover {
+    background-color: #ffe302;
+  }
+
+  &:disabled {
+    background-color: #b4b4b4;
+  }
+}
