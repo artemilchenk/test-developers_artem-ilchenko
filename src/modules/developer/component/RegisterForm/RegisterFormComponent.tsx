@@ -70,6 +70,7 @@ export const RegisterForm = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div key={1} id={"1"} className={classesRegister.control}>
         <TextControl
+          control={control}
           name={"name" as FieldPath<FormFields>}
           controlTitle={"Your Name"}
           errorObj={errors}
@@ -78,6 +79,7 @@ export const RegisterForm = () => {
 
       <div key={2} id={"2"} className={classesRegister.control}>
         <TextControl
+          control={control}
           name={"email" as FieldPath<FormFields>}
           controlTitle={"Email"}
           errorObj={errors}
@@ -86,6 +88,7 @@ export const RegisterForm = () => {
 
       <div key={3} id={"3"} className={classesRegister.control}>
         <TextControl
+          control={control}
           name={"phone" as FieldPath<FormFields>}
           controlTitle={"Phone"}
           errorObj={errors}
@@ -171,6 +174,7 @@ export const RegisterForm = () => {
 
       <div className={classesRegister.control}>
         <FileControl
+          control={control}
           name={"photo" as FieldPath<FormFields>}
           controlTitle={"Photo"}
           errorObj={errors}

@@ -25,7 +25,6 @@ export const TextControl = <T extends FieldValues, TName extends FieldPath<T>>({
   helperText,
 }: ITextControlProps<T, TName>) => {
   if (!control) return;
-
   const errorValue = errorObj[name]?.message ?? "";
   return (
     <Controller
