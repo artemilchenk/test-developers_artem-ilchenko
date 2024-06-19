@@ -1,1 +1,1 @@
-export * from "./ControlComponent.tsx";
+export * from "./TextControlComponent.tsx";

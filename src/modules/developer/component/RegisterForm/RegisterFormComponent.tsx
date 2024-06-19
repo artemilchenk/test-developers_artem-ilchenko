@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, FieldPath, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import classesRegister from "./register-form.module.scss";
 import { TextControl } from "@/components/Control/TextControl/TextControlComponent";
@@ -19,8 +19,11 @@ import { schema } from "@/modules/developer/component/RegisterForm/schema";
 import { developerService } from "@/modules/developer";
 import { fileToBinaryString } from "@/utils/fileToBinaryString";
 import { useDevelopersData } from "@/modules/developer/hook";
+import { IPositionItem } from "@/modules/developer/types";
+import { AxiosError } from "axios";
+import { v4 as uuidv4 } from "uuid";
 
-type FormFields = z.infer<typeof schema>;
+export type FormFields = z.infer<typeof schema>;
 
 export const RegisterForm = () => {
   const { data: positions } = useQuery(
@@ -28,7 +31,7 @@ export const RegisterForm = () => {
     developerService.getPositions.bind(developerService)
   );
 
-  const { registerDeveloperMutation, isLoadingRegister } = useDevelopersData();
+  const { mutateAsync, isLoadingRegister } = useDevelopersData();
 
   const {
     handleSubmit,
@@ -44,18 +47,18 @@ export const RegisterForm = () => {
     const file = data?.photo[0];
 
     if (file) {
-      fileToBinaryString(file, async function (binaryString) {
+      fileToBinaryString(file, async function (binaryString: string) {
         try {
-          const response = await registerDeveloperMutation({
+          await mutateAsync({
             ...data,
             photo: binaryString,
           });
-          console.log({ response });
           reset();
-        } catch (err) {
-          if (err.response.status > 200) {
+        } catch (err: unknown) {
+          const error = err as AxiosError;
+          if (error.response?.status && error.response?.status > 200) {
             setError("root.serverError", {
-              type: err.response.status,
+              type: error.response?.status + "",
             });
           }
         }
@@ -65,28 +68,25 @@ export const RegisterForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div id={"1"} className={classesRegister.control}>
+      <div key={1} id={"1"} className={classesRegister.control}>
         <TextControl
-          control={control}
-          controlName={"name"}
+          name={"name" as FieldPath<FormFields>}
           controlTitle={"Your Name"}
           errorObj={errors}
         />
       </div>
 
-      <div id={"2"} className={classesRegister.control}>
+      <div key={2} id={"2"} className={classesRegister.control}>
         <TextControl
-          control={control}
-          controlName={"email"}
+          name={"email" as FieldPath<FormFields>}
           controlTitle={"Email"}
           errorObj={errors}
         />
       </div>
 
-      <div id={"3"} className={classesRegister.control}>
+      <div key={3} id={"3"} className={classesRegister.control}>
         <TextControl
-          control={control}
-          controlName={"phone"}
+          name={"phone" as FieldPath<FormFields>}
           controlTitle={"Phone"}
           errorObj={errors}
           type={"number"}
@@ -120,10 +120,10 @@ export const RegisterForm = () => {
                 defaultValue="female"
                 name="radio-buttons-group"
               >
-                {positions?.map((position) => {
+                {positions?.map((position: IPositionItem) => {
                   return (
                     <FormControlLabel
-                      id={position.id}
+                      key={uuidv4()}
                       {...field}
                       onChange={() => {
                         field.onChange(position.id);
@@ -144,7 +144,7 @@ export const RegisterForm = () => {
                   );
                 })}
               </RadioGroup>
-              <FormHelperText id="my-helper-text">
+              <FormHelperText component={"span"} id="my-helper-text">
                 {errors.position_id ? (
                   <div style={{ color: "#CB3D40", height: 18 }}>
                     {errors.position_id.message}
@@ -171,8 +171,7 @@ export const RegisterForm = () => {
 
       <div className={classesRegister.control}>
         <FileControl
-          control={control}
-          controlName={"photo"}
+          name={"photo" as FieldPath<FormFields>}
           controlTitle={"Photo"}
           errorObj={errors}
         />
@@ -183,7 +182,7 @@ export const RegisterForm = () => {
           {isLoadingRegister ? "Loading..." : "Submit"}
         </BaseButton>
 
-        <FormHelperText id="my-helper-text">
+        <FormHelperText component={"span"} id="my-helper-text">
           {errors.root?.serverError ? (
             <div style={{ color: "#CB3D40", height: 18, textAlign: "center" }}>
               {errors.root?.serverError.type === 401 && "Unauthorized"}

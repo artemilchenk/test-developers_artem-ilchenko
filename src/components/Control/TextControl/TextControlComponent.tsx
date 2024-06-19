@@ -1,29 +1,33 @@
 import { FormControl, FormHelperText, TextField } from "@mui/material";
-import { Control, Controller } from "react-hook-form";
-import { FC } from "react";
-import { FieldErrors } from "react-hook-form/dist/types/errors";
+import {
+  Controller,
+  FieldErrors,
+  FieldPath,
+  FieldValues,
+  UseControllerProps,
+} from "react-hook-form";
+import { ReactNode } from "react";
 
-interface ITextControlProps {
-  control: Control;
-  controlName: string;
+interface ITextControlProps<T extends FieldValues, TName extends FieldPath<T>>
+  extends UseControllerProps<T, TName> {
   controlTitle: string;
   errorObj: FieldErrors;
-  type?: "number" | "text";
   helperText?: string;
-
+  type?: "number" | "text" | undefined;
 }
 
-export const TextControl: FC<ITextControlProps> = ({
+export const TextControl = <T extends FieldValues, TName extends FieldPath<T>>({
   control,
-  controlName,
+  name,
   controlTitle,
   errorObj,
   type,
   helperText,
-}) => {
+}: ITextControlProps<T, TName>) => {
+  const errorValue = errorObj[name]?.message ?? "";
   return (
     <Controller
-      name={controlName}
+      name={name}
       control={control}
       render={({ field }) => (
         <FormControl fullWidth={true}>
@@ -32,24 +36,18 @@ export const TextControl: FC<ITextControlProps> = ({
               "& .MuiOutlinedInput-root": {
                 fontFamily: "Nunito",
                 "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: `${
-                    errorObj[controlName] ? "#CB3D40" : "#D0CFCF"
-                  }`,
+                  borderColor: `${errorObj[name] ? "#CB3D40" : "#D0CFCF"}`,
                 },
                 "&.Mui-focused": {
                   "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: `${
-                      errorObj[controlName] ? "#CB3D40" : "#D0CFCF"
-                    }`,
+                    borderColor: `${errorObj[name] ? "#CB3D40" : "#D0CFCF"}`,
                     borderWidth: "1px",
                   },
                 },
 
                 "&:hover:not(.Mui-focused)": {
                   "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: `${
-                      errorObj[controlName] ? "#CB3D40" : "#D0CFCF"
-                    }`,
+                    borderColor: `${errorObj[name] ? "#CB3D40" : "#D0CFCF"}`,
                   },
                 },
               },
@@ -68,27 +66,21 @@ export const TextControl: FC<ITextControlProps> = ({
             variant="outlined"
             type={type}
           />
-          <FormHelperText id="my-helper-text">
-            {errorObj[controlName] ? (
-              <div style={{ color: "#CB3D40", height: 18 }}>
-                {errorObj[controlName].message}
+          <FormHelperText component={"span"} id="my-helper-text">
+            <div style={{ height: 18, width: "100%" }}>
+              {errorValue as ReactNode}
+              <div
+                style={{
+                  fontSize: 12,
+                  fontFamily: "Nunito",
+                  color: "#7E7E7E",
+                  lineHeight: "14px",
+                  height: 18,
+                }}
+              >
+                {helperText ?? ""}
               </div>
-            ) : (
-              <div style={{ height: 18, width: "100%" }}>
-                {" "}
-                <div
-                  style={{
-                    fontSize: 12,
-                    fontFamily: "Nunito",
-                    color: "#7E7E7E",
-                    lineHeight: "14px",
-                    height: 18,
-                  }}
-                >
-                  {helperText ?? ""}
-                </div>
-              </div>
-            )}
+            </div>
           </FormHelperText>
         </FormControl>
       )}

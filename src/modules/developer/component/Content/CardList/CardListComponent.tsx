@@ -1,6 +1,7 @@
 import classes from "./card-list.module.scss";
 import { CardComponent } from "@/modules/developer/component/Content/Card";
 import { useDevelopers } from "@/modules/developer/context";
+import { v4 as uuidv4 } from "uuid";
 
 export const CardListComponent = () => {
   const { developers } = useDevelopers();
@@ -11,8 +12,8 @@ export const CardListComponent = () => {
         developers.map((card, index) => {
           return (
             <CardComponent
-              id={card.id}
-              entity={{ id: index + 1 + "", ...card }}
+              key={uuidv4()}
+              entity={{ ...card, id: index + 1 + "" }}
             />
           );
         })

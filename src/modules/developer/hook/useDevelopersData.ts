@@ -19,12 +19,14 @@ export const useDevelopersData = () => {
     }
   });
 
-  const { mutateAsync: registerDeveloperMutation, isLoading } = useMutation({
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const { mutateAsync, isLoading } = useMutation({
     mutationFn: developerService.registerDeveloper.bind(developerService),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["developers"] });
     },
   });
 
-  return { data, registerDeveloperMutation, isLoadingRegister: isLoading };
+  return { data, mutateAsync, isLoadingRegister: isLoading };
 };

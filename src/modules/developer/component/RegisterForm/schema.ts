@@ -3,7 +3,7 @@ import { z } from "zod";
 const MAX_FILE_SIZE = 5000000;
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg"];
 
-function validateImageSize(file, minWidth, minHeight) {
+function validateImageSize(file: File, minWidth: number, minHeight: number) {
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = function () {

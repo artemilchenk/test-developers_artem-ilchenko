@@ -3,7 +3,7 @@ import { TDevelopersContext } from "@/modules/developer/context/types";
 
 const defaultValue: TDevelopersContext = {
   developers: [],
-  metadata: {},
+  metadata: null
 };
 
 export const DevelopersContext =

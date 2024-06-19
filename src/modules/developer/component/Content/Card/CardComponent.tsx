@@ -7,7 +7,7 @@ interface ICardComponent {
   entity: Partial<IDeveloperEntity>;
 }
 
-export const CardComponent: FC<ICardComponent> = ({ entity, restProps }) => {
+export const CardComponent: FC<ICardComponent> = ({ entity, ...restProps }) => {
   return (
     <div {...restProps} className={classes.card}>
       <div className={classes.image}>

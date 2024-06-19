@@ -1,1 +1,1 @@
-export * from "./HeaderButtonComponent";
+export * from "./BaseButtonComponent.tsx";

@@ -1,13 +1,12 @@
 import { HttpClient } from "@/api/http";
-import { IGetDevelopersResponse } from "@/modules/developer/context";
-import { IDeveloperFormData } from "@/modules/developer/types";
+import { IDeveloperFormData, IGetDevelopersResponse } from "@/modules/developer/types";
 
 export class DeveloperService extends HttpClient {
   constructor() {
     super();
   }
 
-  async getToken(): Promise<object> {
+  async getToken(): Promise<{ token: string }> {
     const response = await this.http.get("/token");
     return response.data;
   }

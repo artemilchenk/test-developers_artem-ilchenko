@@ -1,26 +1,32 @@
 import { FormControl, FormHelperText } from "@mui/material";
-import { Control, Controller } from "react-hook-form";
-import { FC } from "react";
-import { FieldErrors } from "react-hook-form/dist/types/errors";
+import {
+  Controller,
+  FieldPath,
+  FieldValues,
+  UseControllerProps,
+  FieldErrors,
+} from "react-hook-form";
 import classes from "./file.module.scss";
+import { ReactNode } from "react";
 
-interface ITextControlProps {
-  control: Control;
-  controlName: string;
+interface IFileControlProps<T extends FieldValues, TName extends FieldPath<T>>
+  extends UseControllerProps<T, TName> {
+  controlTitle: string;
   errorObj: FieldErrors;
   helperText?: string;
-  setValue: (name: string, value: unknown, config?: object) => void;
+  type?: "number" | "text" | undefined;
 }
 
-export const FileControl: FC<ITextControlProps> = ({
+export const FileControl = <T extends FieldValues, TName extends FieldPath<T>>({
   control,
-  controlName,
+  name,
   errorObj,
   helperText,
-}) => {
+}: IFileControlProps<T, TName>) => {
+  const errorValue = errorObj[name]?.message ?? "";
   return (
     <Controller
-      name={controlName}
+      name={name}
       control={control}
       render={({ field }) => (
         <FormControl fullWidth={true}>
@@ -38,8 +44,8 @@ export const FileControl: FC<ITextControlProps> = ({
                 height: "54px",
                 width: "83px",
                 padding: "14px 15px",
-                border: `${errorObj[controlName] ? "2px" : "1px"} solid ${
-                  errorObj[controlName] ? "#CB3D40" : "black"
+                border: `${errorObj[name] ? "2px" : "1px"} solid ${
+                  errorObj[name] ? "#CB3D40" : "black"
                 } `,
                 borderRadius: "4px 0px 0px 4px",
               }}
@@ -55,14 +61,14 @@ export const FileControl: FC<ITextControlProps> = ({
                 padding: 14,
                 height: "100%",
                 flex: 1,
-                borderTop: `${errorObj[controlName] ? "2px" : "1px"} solid ${
-                  errorObj[controlName] ? "#CB3D40" : "#D0CFCF"
+                borderTop: `${errorObj[name] ? "2px" : "1px"} solid ${
+                  errorObj[name] ? "#CB3D40" : "#D0CFCF"
                 } `,
-                borderRight: `${errorObj[controlName] ? "2px" : "1px"} solid ${
-                  errorObj[controlName] ? "#CB3D40" : "#D0CFCF"
+                borderRight: `${errorObj[name] ? "2px" : "1px"} solid ${
+                  errorObj[name] ? "#CB3D40" : "#D0CFCF"
                 } `,
-                borderBottom: `${errorObj[controlName] ? "2px" : "1px"} solid ${
-                  errorObj[controlName] ? "#CB3D40" : "#D0CFCF"
+                borderBottom: `${errorObj[name] ? "2px" : "1px"} solid ${
+                  errorObj[name] ? "#CB3D40" : "#D0CFCF"
                 } `,
                 borderRadius: "0px 4px 4px 0px",
               }}
@@ -71,7 +77,8 @@ export const FileControl: FC<ITextControlProps> = ({
               <input
                 {...field}
                 onChange={(event) => {
-                  field.onChange([event.target?.files[0]]);
+                  const files = event.target.files;
+                  if (files) field.onChange([files[0]]);
                 }}
                 type="file"
                 name="photo"
@@ -83,10 +90,10 @@ export const FileControl: FC<ITextControlProps> = ({
             </div>
           </div>
 
-          <FormHelperText id="my-helper-text">
-            {errorObj[controlName] ? (
+          <FormHelperText component={"span"} id="my-helper-text">
+            {errorObj[name] ? (
               <div style={{ color: "#CB3D40", height: 18 }}>
-                {errorObj[controlName].message}
+                {errorValue as ReactNode}
               </div>
             ) : (
               <div style={{ height: 18, width: "100%" }}>

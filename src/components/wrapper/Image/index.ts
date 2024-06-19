@@ -1,1 +1,1 @@
-export * from './Image.tsx'
+export * from './AdaptiveImage.tsx'

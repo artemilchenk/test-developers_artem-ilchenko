@@ -7,21 +7,23 @@ interface IImageProps {
 }
 
 export const AdaptiveImage: FC<IImageProps> = ({ width, height, src }) => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLImageElement | null>(null);
   const [imgShape, setImgShape] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
     const img = ref.current;
-    img.style.opacity = 1;
+    if (img) {
+      img.style.opacity = "1";
 
-    if (imgShape.width > imgShape.height) {
-      img.style.height = `${height}px`;
-      img.style.width = "auto";
-    }
+      if (imgShape.width > imgShape.height) {
+        img.style.height = `${height}px`;
+        img.style.width = "auto";
+      }
 
-    if (imgShape.width < imgShape.height) {
-      img.style.width = `${width}px`;
-      img.style.height = "auto";
+      if (imgShape.width < imgShape.height) {
+        img.style.width = `${width}px`;
+        img.style.height = "auto";
+      }
     }
   }, [imgShape, height, width]);
 
@@ -39,10 +41,13 @@ export const AdaptiveImage: FC<IImageProps> = ({ width, height, src }) => {
     >
       <img
         onLoad={(event) => {
-          setImgShape({
-            width: event.target.width,
-            height: event.target.height,
-          });
+          const target = event.target as HTMLImageElement;
+          if (target.width && target.height) {
+            setImgShape({
+              width: target.width,
+              height: target.height,
+            });
+          }
         }}
         style={{ opacity: 0 }}
         ref={ref}

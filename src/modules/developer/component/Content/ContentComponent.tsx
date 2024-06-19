@@ -9,21 +9,29 @@ export const ContentComponent = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { metadata } = useDevelopers();
 
+  const currentPage = searchParams.get("page");
+
   return (
     <div className={globalClasses.section}>
       <div className={classesContent.wrapper}>
         <div className={classesContent.title}>Working with GET request</div>
         <CardListComponent />
-        {+searchParams.get("page") < metadata?.total_pages && (
-          <ContentButton
-            onClick={() => {
-              searchParams.set("page", String(+searchParams.get("page") + 1));
-              setSearchParams(searchParams);
-            }}
-          >
-            Show more
-          </ContentButton>
-        )}
+        {metadata?.total_pages &&
+          currentPage &&
+          +currentPage < metadata?.total_pages && (
+            <ContentButton
+              onClick={() => {
+                const currentPage = searchParams.get("page");
+
+                if (currentPage) {
+                  searchParams.set("page", String(+currentPage + 1));
+                }
+                setSearchParams(searchParams);
+              }}
+            >
+              Show more
+            </ContentButton>
+          )}
       </div>
     </div>
   );

@@ -1,3 +1,8 @@
+export interface IPositionItem {
+  id: number;
+  name: string;
+}
+
 export interface IDeveloperFormData {
   name: string;
   email: string;
