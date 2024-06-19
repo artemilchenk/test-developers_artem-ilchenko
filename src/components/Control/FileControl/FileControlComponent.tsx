@@ -23,11 +23,13 @@ export const FileControl = <T extends FieldValues, TName extends FieldPath<T>>({
   errorObj,
   helperText,
 }: IFileControlProps<T, TName>) => {
+  if (!control) return;
+
   const errorValue = errorObj[name]?.message ?? "";
   return (
     <Controller
       name={name}
-      control={control}
+      control={control ?? {}}
       render={({ field }) => (
         <FormControl fullWidth={true}>
           <div
