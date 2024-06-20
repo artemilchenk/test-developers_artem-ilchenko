@@ -1,5 +1,4 @@
 import { DevelopersContext } from "@/modules/developer/context/context";
-import {} from "@/modules/developer/context/types";
 import { FC, ReactNode, useRef } from "react";
 import {useDevelopersApi} from "@/modules/developer/hook";
 import {
@@ -13,7 +12,7 @@ interface IDevelopersProvider {
 
 export const DevelopersProvider: FC<IDevelopersProvider> = ({ children }) => {
   const developers = useRef<IDeveloperEntity[] | undefined>();
-  const { data, isFetchDataError, isFetchDataLoading } = useDevelopersApi();
+  const { data } = useDevelopersApi();
 
   function dataGuard (){
     if(data?.users){

@@ -1,8 +1,14 @@
 import classes from './warning.module.scss'
+import {FC, ReactNode} from "react";
 
-export const LocalFetchWarning = ({children})=>{
+interface ILocalFetchWarning {
+    children?: ReactNode;
+}
+
+
+export const LocalFetchWarning: FC<ILocalFetchWarning> = ({children, ...restProps})=>{
     console.log('test')
-    return <div className={classes.warning}>
+    return <div {...restProps} className={classes.warning}>
         {children}
     </div>
 }
