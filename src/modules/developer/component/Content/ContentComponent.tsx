@@ -2,12 +2,12 @@ import { CardListComponent } from "@/modules/developer/component/Content/CardLis
 import classesContent from "@/modules/developer/component/Content/content.module.scss";
 import globalClasses from "@/styles/global.module.scss";
 import { ContentButton } from "@/ui/ContentButton";
-import { useDevelopers } from "@/modules/developer/context";
+import { useDevelopersData} from "@/modules/developer/context";
 import { useSearchParams } from "react-router-dom";
 
 export const ContentComponent = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { metadata } = useDevelopers();
+  const { metadata } = useDevelopersData();
 
   const currentPage = searchParams.get("page");
 

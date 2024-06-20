@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { DevelopersContext } from "@/modules/developer/context/context";
 
-export const useDevelopers = () => {
+export const useDevelopersData = () => {
   const context = useContext(DevelopersContext);
 
   if (useContext(DevelopersContext) === undefined) {

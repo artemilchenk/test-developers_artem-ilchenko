@@ -73,7 +73,7 @@ export const TextControl = <T extends FieldValues, TName extends FieldPath<T>>({
                 style={{
                   fontSize: 12,
                   fontFamily: "Nunito",
-                  color: "#7E7E7E",
+                  color: errorValue ? 'red' : "#7E7E7E",
                   lineHeight: "14px",
                   height: 18,
                 }}

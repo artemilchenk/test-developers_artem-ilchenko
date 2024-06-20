@@ -18,20 +18,22 @@ import { useQuery } from "react-query";
 import { schema } from "@/modules/developer/component/RegisterForm/schema";
 import { developerService } from "@/modules/developer";
 import { fileToBinaryString } from "@/utils/fileToBinaryString";
-import { useDevelopersData } from "@/modules/developer/hook";
+import {useDevelopersApi} from "@/modules/developer/hook";
 import { IPositionItem } from "@/modules/developer/types";
 import { AxiosError } from "axios";
 import { v4 as uuidv4 } from "uuid";
+import {LocalFetchWarning} from "@/ui/notification/fetch/local/warning";
+import {LocalFetchError} from "@/ui/notification/fetch/local/error";
 
 export type FormFields = z.infer<typeof schema>;
 
 export const RegisterForm = () => {
-  const { data: positions } = useQuery(
+  const { data: positions, isError, isLoading } = useQuery(
     "positions",
     developerService.getPositions.bind(developerService)
   );
 
-  const { mutateAsync, isLoadingRegister } = useDevelopersData();
+  const { mutateAsync, isLoadingRegister } = useDevelopersApi();
 
   const {
     handleSubmit,
@@ -65,6 +67,18 @@ export const RegisterForm = () => {
       });
     }
   };
+
+    if (isLoading) return (
+        <LocalFetchWarning>
+            Data is fetching...
+        </LocalFetchWarning>
+    )
+
+    if (isError) return (
+        <LocalFetchError>
+            Can not fetch data...
+        </LocalFetchError>
+    )
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

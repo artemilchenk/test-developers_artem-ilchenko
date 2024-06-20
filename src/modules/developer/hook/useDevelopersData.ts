@@ -2,11 +2,11 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { developerService } from "@/modules/developer";
 import { useSearchParams } from "react-router-dom";
 
-export const useDevelopersData = () => {
+export const useDevelopersApi = () => {
   const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { data } = useQuery(["developers", searchParams.toString()], () => {
+  const { data, isLoading: isFetchDataLoading, isError: isFetchDataError } = useQuery(["developers", searchParams.toString()], () => {
     if (!searchParams.toString()) {
       searchParams.set("page", "1");
       searchParams.set("count", "6");
@@ -21,12 +21,12 @@ export const useDevelopersData = () => {
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const { mutateAsync, isLoading } = useMutation({
+  const { mutateAsync, isLoading: isLoadingRegister } = useMutation({
     mutationFn: developerService.registerDeveloper.bind(developerService),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["developers"] });
     },
   });
 
-  return { data, mutateAsync, isLoadingRegister: isLoading };
+  return { data, mutateAsync, isLoadingRegister, isFetchDataLoading, isFetchDataError};
 };

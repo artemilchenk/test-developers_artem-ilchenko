@@ -1,7 +1,7 @@
 import { DevelopersContext } from "@/modules/developer/context/context";
 import {} from "@/modules/developer/context/types";
 import { FC, ReactNode, useRef } from "react";
-import { useDevelopersData } from "@/modules/developer/hook";
+import {useDevelopersApi} from "@/modules/developer/hook";
 import {
   IDeveloperEntity,
   IGetDevelopersResponse,
@@ -12,10 +12,22 @@ interface IDevelopersProvider {
 }
 
 export const DevelopersProvider: FC<IDevelopersProvider> = ({ children }) => {
-  const developers = useRef<IDeveloperEntity[]>([]);
-  const { data } = useDevelopersData();
+  const developers = useRef<IDeveloperEntity[] | undefined>();
+  const { data, isFetchDataError, isFetchDataLoading } = useDevelopersApi();
 
-  developers.current = [...developers.current, ...(data?.users || [])];
+  function dataGuard (){
+    if(data?.users){
+      if(!developers.current) {
+        return data?.users
+      }
+
+      if(developers.current){
+        return [...developers.current, ...data?.users];
+      }
+    } else return undefined
+  }
+
+  developers.current = dataGuard()
 
   let metadata: Omit<IGetDevelopersResponse, "users"> | null = null;
   if (data) {
