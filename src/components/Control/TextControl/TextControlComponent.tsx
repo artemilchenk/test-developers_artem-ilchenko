@@ -25,7 +25,7 @@ export const TextControl = <T extends FieldValues, TName extends FieldPath<T>>({
   helperText,
 }: ITextControlProps<T, TName>) => {
   if (!control) return;
-  const errorValue = errorObj[name]?.message ?? "";
+  const errorValue = (errorObj[name]?.message ?? "") as ReactNode
   return (
     <Controller
       name={name}
@@ -69,7 +69,6 @@ export const TextControl = <T extends FieldValues, TName extends FieldPath<T>>({
           />
           <FormHelperText component={"span"} id="my-helper-text">
             <div style={{ height: 18, width: "100%" }}>
-              {errorValue as ReactNode}
               <div
                 style={{
                   fontSize: 12,
@@ -79,7 +78,7 @@ export const TextControl = <T extends FieldValues, TName extends FieldPath<T>>({
                   height: 18,
                 }}
               >
-                {helperText ?? ""}
+                {errorValue ? errorValue : helperText ? helperText : ''}
               </div>
             </div>
           </FormHelperText>
